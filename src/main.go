@@ -17,6 +17,9 @@ var Index string
 //go:embed static/favicon.ico
 var FavIcon string
 
+//go:embed static/rickroll.gif
+var RickRoll []byte
+
 var Seed = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 func main() {
@@ -39,12 +42,14 @@ func index(w http.ResponseWriter, r *http.Request) {
 func fact(w http.ResponseWriter, r *http.Request) {
 	randomIndex := Seed.Intn(100)
 	if randomIndex > len(Facts) {
-		// Rick roll here
+		w.Header().Add("Content-Type", "image/gif")
+		w.Write(RickRoll)
+	} else {
+		fact := Facts[randomIndex]
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(fact))
 	}
 
-	fact := Facts[randomIndex]
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(fact))
 	return
 }
 
