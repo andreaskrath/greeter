@@ -14,6 +14,9 @@ import (
 //go:embed static/index.html
 var Index string
 
+//go:embed static/favicon.ico
+var FavIcon string
+
 var Seed = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 func main() {
@@ -22,6 +25,7 @@ func main() {
 	router.Get("/", index)
 	router.Get("/index", index)
 	router.Get("/fact", fact)
+	router.Get("/favicon.ico", favicon)
 
 	fmt.Println("Listening on port 8080")
 	http.ListenAndServe(":8080", router)
@@ -39,5 +43,8 @@ func fact(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(fact))
 	return
 }
+
+func favicon(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte(FavIcon))
 	return
 }
