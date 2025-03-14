@@ -37,7 +37,11 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func fact(w http.ResponseWriter, r *http.Request) {
-	randomIndex := Seed.Intn(len(Facts))
+	randomIndex := Seed.Intn(100)
+	if randomIndex > len(Facts) {
+		// Rick roll here
+	}
+
 	fact := Facts[randomIndex]
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(fact))
