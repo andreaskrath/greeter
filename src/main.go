@@ -44,17 +44,17 @@ func fact(w http.ResponseWriter, r *http.Request) {
 	blpString := r.URL.Query().Get("blp")
 	blp, err := strconv.Atoi(blpString)
 	if err != nil {
+		rick(w)
 		return
 	}
 
-	randomIndex := Seed.Intn(100) + blp
-	if randomIndex < len(Facts) {
+	randomIndex := Seed.Intn(len(Facts)+5) + blp
+	if randomIndex < len(Facts) && randomIndex >= 0 {
 		fact := Facts[randomIndex]
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(fact))
 	} else {
-		w.Header().Add("Content-Type", "image/gif")
-		w.Write(RickRoll)
+		rick(w)
 	}
 
 	return
@@ -62,5 +62,11 @@ func fact(w http.ResponseWriter, r *http.Request) {
 
 func favicon(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(FavIcon))
+	return
+}
+
+func rick(w http.ResponseWriter) {
+	w.Header().Add("Content-Type", "image/gif")
+	w.Write(RickRoll)
 	return
 }
