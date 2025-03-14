@@ -41,7 +41,6 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func fact(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("IN FACT HANDLER")
 	blpString := r.URL.Query().Get("blp")
 	blp, err := strconv.Atoi(blpString)
 	if err != nil {
