@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/go-chi/chi/v5"
@@ -40,14 +41,21 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func fact(w http.ResponseWriter, r *http.Request) {
-	randomIndex := Seed.Intn(100)
-	if randomIndex > len(Facts) {
-		w.Header().Add("Content-Type", "image/gif")
-		w.Write(RickRoll)
-	} else {
+	fmt.Println("IN FACT HANDLER")
+	blpString := r.URL.Query().Get("blp")
+	blp, err := strconv.Atoi(blpString)
+	if err != nil {
+		return
+	}
+
+	randomIndex := Seed.Intn(100) + blp
+	if randomIndex < len(Facts) {
 		fact := Facts[randomIndex]
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(fact))
+	} else {
+		w.Header().Add("Content-Type", "image/gif")
+		w.Write(RickRoll)
 	}
 
 	return

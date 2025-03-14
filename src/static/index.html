@@ -98,9 +98,11 @@
     </div>
 
     <script>
+        let blp = 0;
         async function fetchRandomFact() {
             const factDisplay = document.getElementById('factDisplay');
-            const response = await fetch("/fact");
+            const route = "/fact?blp=" + blp;
+            const response = await fetch(route);
             const contentType = response.headers.get("Content-Type");
 
             factDisplay.classList.remove('fade');
@@ -119,7 +121,8 @@
               img.alt = "Rick Roll";
               img.style.maxWidth = "100%";
               factDisplay.appendChild(img);
-
+              
+              blp = 0;
             } else {
               const textData = await response.text();
 
@@ -129,11 +132,13 @@
               }
 
               factDisplay.textContent = textData;
+
+              blp += 1;
             }
         }
 
         fetchRandomFact();
-        setInterval(fetchRandomFact, 5000);
+        setInterval(fetchRandomFact, 100);
     </script>
 </body>
 </html>
