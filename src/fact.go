@@ -1,6 +1,6 @@
 package main
 
-var Facts = [100]string{
+var Facts = []string{
 	"The first computer programmer was Ada Lovelace, who wrote the first algorithm for Charles Babbage's Analytical Engine in the 1840s.",
 	"The term 'bug' to describe a software defect originated when Grace Hopper found a moth causing issues in the Harvard Mark II computer in 1947.",
 	"Python was named after the British comedy group Monty Python, not the snake.",
