@@ -2,7 +2,7 @@ default:
     @just --list
 
 run:
-    @go run ./src
+    @cargo run
 
 test:
-    @go test ./src
+    @cargo test
