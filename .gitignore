@@ -27,3 +27,8 @@ go.work.sum
 # direnv artifactss
 .direnv
 .envrc
+
+
+# Added by cargo
+
+/target
