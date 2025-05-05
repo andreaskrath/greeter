@@ -1,21 +1,25 @@
 use axum::{
-    Router,
     body::Body,
     extract::{MatchedPath, Query},
     http::{Request, StatusCode},
     response::{Html, IntoResponse, Response},
     routing::get,
+    Router,
 };
 use fact::FACTS;
 use rand::Rng;
 use serde::Deserialize;
 use tokio::net::TcpListener;
 use tower_http::trace::TraceLayer;
-use tracing::{Level, info, info_span};
+use tracing::{info, info_span, Level};
 use tracing_subscriber::fmt::time::OffsetTime;
 use uuid::Uuid;
 
 mod fact;
+
+const PACKAGE_NAME: &str = env!("CARGO_PKG_NAME");
+
+const PACKAGE_VERSION: &str = env!("CARGO_PKG_VERSION");
 
 const INDEX_HTML: &[u8] = include_bytes!("../static/index.html");
 
@@ -69,7 +73,10 @@ async fn async_main() {
         .await
         .expect("failed to bind to port 8080");
 
-    info!("Starting greeter service on port 8080");
+    info!(
+        "Starting {} service version v{} on port 8080",
+        PACKAGE_NAME, PACKAGE_VERSION
+    );
     axum::serve(listener, greeter)
         .await
         .expect("failed to start greeter service");
